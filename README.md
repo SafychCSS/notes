@@ -1,4 +1,5 @@
 # notes
+>with tailwind css
 
 ## Project setup
 ```
