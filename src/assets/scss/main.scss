@@ -1,0 +1,54 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    background-color: #fafafa;
+}
+
+*, button, svg {
+    box-sizing: border-box;
+    outline: 0;
+
+    &:focus {
+        outline: 0;
+    }
+}
+
+textarea {
+    resize: none;
+}
+
+.form {
+    &__input,
+    &__textarea {
+        border: 1px solid #dcdfe6;
+    }
+}
+
+.find {
+    &__icon {
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+}
+
+.note {
+    &__remove {
+        right: 20px;
+        top: 15px;
+    }
+}
+
+.active-element {
+    @apply text-purple-600;
+}
+
+@media (min-width: 1680px) {
+
+}
