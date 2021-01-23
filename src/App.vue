@@ -20,11 +20,9 @@
         <div class="flex">
             <div class="find relative flex-auto mr-8">
                 <input type="text" name="find" class="border w-full rounded-full py-4 pl-8 pr-20 focus:border-purple-400 transition duration-300" placeholder="Search note...">
-                <button class="find__icon absolute right-0 text-gray-400" type="button">
-                    <svg class="w-7 h-7 hover:text-purple-600 transition duration-300">
-                        <use xlink:href="./assets/img/sprite.svg#icon-search"></use>
-                    </svg>
-                </button>
+                <svg class="find__icon absolute right-0 text-gray-400 w-7 h-7 transition duration-300">
+                    <use xlink:href="./assets/img/sprite.svg#icon-search"></use>
+                </svg>
             </div>
 
             <div class="flex text-gray-400">
@@ -50,7 +48,7 @@
                 <p class="note__title font-medium text-2xl mb-4">{{ note.title }}</p>
                 <p class="note__description text-lg my-4">{{ note.description }}</p>
                 <span class="note__date text-sm text-gray-400 mt-auto">{{ note.dataAdd }}</span>
-                <button type="button" class="note__remove transform absolute text-3xl text-gray-400 hover:text-purple-600 transition duration-300 hover:rotate-90">&times;</button>
+                <button @click="removeNote(note.id)" type="button" class="note__remove transform absolute text-3xl text-gray-400 hover:text-purple-600 transition duration-300 hover:rotate-90">&times;</button>
             </div>
         </div>
     </div>
@@ -99,6 +97,11 @@ export default {
 
             this.title = '';
             this.description = '';
+        },
+
+        removeNote(id) {
+            let index = this.notes.findIndex(item => id === item.id);
+            this.notes.splice(index, 1);
         }
     }
 }
