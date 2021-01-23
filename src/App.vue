@@ -6,14 +6,14 @@
             <form action="/" method="post">
                 <div class="form__block my-5">
                     <label for="note-title" class="block text-xl">Title</label>
-                    <input class="form__input block border w-full rounded-lg p-4 focus:border-purple-400 transition duration-300" name="note-title" id="note-title" type="text" placeholder="Title note">
+                    <input v-model="title" class="form__input block border w-full rounded-lg p-4 focus:border-purple-400 transition duration-300" name="note-title" id="note-title" type="text" placeholder="Title note">
                 </div>
 
                 <div class="form__block my-5">
                     <label class="block text-xl" for="note-description">Description</label>
-                    <textarea class="form__textarea block border w-full rounded-lg p-4 focus:border-purple-400 transition duration-300" name="note-description" id="note-description" cols="30" rows="4" placeholder="Description note" maxlength="200"></textarea>
+                    <textarea v-model="description" class="form__textarea block border w-full rounded-lg p-4 focus:border-purple-400 transition duration-300" name="note-description" id="note-description" cols="30" rows="4" placeholder="Description note" maxlength="200"></textarea>
                 </div>
-                <button @click.prevent="" class="flex mx-auto bg-purple-600 inline-block text-white px-7 py-4 rounded-full text-xl hover:shadow-xl transition-shadow duration-300">Add new</button>
+                <button @click.prevent="addNewNote" class="flex mx-auto bg-purple-600 inline-block text-white px-7 py-4 rounded-full text-xl hover:shadow-xl transition-shadow duration-300">Add new</button>
             </form>
         </div>
 
@@ -43,45 +43,13 @@
         </div>
 
         <div class="notes grid grid-cols-2 gap-6 my-8">
-            <div class="note relative flex flex-col bg-white shadow p-8 hover:shadow-lg transition duration-300">
-                <p class="note__title font-medium text-2xl mb-4">First note</p>
-                <p class="note__description text-lg my-4">asfaswe aerg serhg asfaswe aerg serhg asfaswe aerg asfaswe aerg serhg asfaswe aerg serhg asfaswe aerg asfaswe aerg serhg asfaswe aerg serhg asfaswe aerg asfaswe aerg serhg asfaswe aerg serhg asfaswe a</p>
-                <span class="note__date text-sm text-gray-400 mt-auto">22.01.2021, 22:27:58</span>
-                <button type="button" class="note__remove transform absolute text-3xl text-gray-400 hover:text-purple-600 transition duration-300 hover:rotate-90">&times;</button>
-            </div>
-
-            <div class="note relative flex flex-col bg-white shadow p-8 hover:shadow-lg transition duration-300">
-                <p class="note__title font-medium text-2xl mb-4">Second note</p>
-                <p class="note__description text-lg my-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloribus, ipsam.</p>
-                <span class="note__date text-sm text-gray-400 mt-auto">22.01.2021, 22:27:58</span>
-                <button type="button" class="note__remove transform absolute text-3xl text-gray-400 hover:text-purple-600 transition duration-300 hover:rotate-90">&times;</button>
-            </div>
-
-            <div class="note relative flex flex-col bg-white shadow p-8 hover:shadow-lg transition duration-300">
-                <p class="note__title font-medium text-2xl mb-4">Second note</p>
-                <p class="note__description text-lg my-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloribus, ipsam. Lorem ipsum dolor sit amet, consectetur adipisicing elitLorem ipsum dolor sit amet, consectetur adipisicing elit</p>
-                <span class="note__date text-sm text-gray-400 mt-auto">22.01.2021, 22:27:58</span>
-                <button type="button" class="note__remove transform absolute text-3xl text-gray-400 hover:text-purple-600 transition duration-300 hover:rotate-90">&times;</button>
-            </div>
-
-            <div class="note relative flex flex-col bg-white shadow p-8 hover:shadow-lg transition duration-300">
-                <p class="note__title font-medium text-2xl mb-4">Second note</p>
-                <p class="note__description text-lg my-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloribus, ipsam.</p>
-                <span class="note__date text-sm text-gray-400 mt-auto">22.01.2021, 22:27:58</span>
-                <button type="button" class="note__remove transform absolute text-3xl text-gray-400 hover:text-purple-600 transition duration-300 hover:rotate-90">&times;</button>
-            </div>
-
-            <div class="note relative flex flex-col bg-white shadow p-8 hover:shadow-lg transition duration-300">
-                <p class="note__title font-medium text-2xl mb-4">Second note</p>
-                <p class="note__description text-lg my-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloribus, ipsam.</p>
-                <span class="note__date text-sm text-gray-400 mt-auto">22.01.2021, 22:27:58</span>
-                <button type="button" class="note__remove transform absolute text-3xl text-gray-400 hover:text-purple-600 transition duration-300 hover:rotate-90">&times;</button>
-            </div>
-
-            <div class="note relative flex flex-col bg-white shadow p-8 hover:shadow-lg transition duration-300">
-                <p class="note__title font-medium text-2xl mb-4">Second note</p>
-                <p class="note__description text-lg my-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloribus, ipsam.</p>
-                <span class="note__date text-sm text-gray-400 mt-auto">22.01.2021, 22:27:58</span>
+            <div
+                class="note relative flex flex-col bg-white shadow p-8 hover:shadow-lg transition duration-300"
+                v-for="note in notes"
+            >
+                <p class="note__title font-medium text-2xl mb-4">{{ note.title }}</p>
+                <p class="note__description text-lg my-4">{{ note.description }}</p>
+                <span class="note__date text-sm text-gray-400 mt-auto">{{ note.dataAdd }}</span>
                 <button type="button" class="note__remove transform absolute text-3xl text-gray-400 hover:text-purple-600 transition duration-300 hover:rotate-90">&times;</button>
             </div>
         </div>
@@ -92,6 +60,47 @@
 
 export default {
     name: 'App',
+    data() {
+        return {
+            title: '',
+            description: '',
+            notes: [
+                {
+                    id: 1,
+                    title: 'First note',
+                    description: 'anything about this note',
+                    dataAdd: new Date().toLocaleString()
+                },
+                {
+                    id: 2,
+                    title: 'Second note',
+                    description: 'anything about this note anything about this note anything about this note',
+                    dataAdd: new Date().toLocaleString()
+                },
+                {
+                    id: 3,
+                    title: 'Third note',
+                    description: 'anything about this note',
+                    dataAdd: new Date().toLocaleString()
+                },
+            ]
+        }
+    },
+    methods: {
+        addNewNote() {
+            if (this.title.length < 3) return false;
+
+            this.notes.push({
+                id: this.notes.length + 1,
+                title: this.title,
+                description: this.description,
+                dataAdd: new Date().toLocaleString()
+            });
+
+            this.title = '';
+            this.description = '';
+        }
+    }
 }
 </script>
 
