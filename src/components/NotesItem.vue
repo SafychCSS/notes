@@ -9,7 +9,7 @@
 
 <script>
 export default {
-    name: 'Note',
+    name: 'NotesItem',
     props: {
         note: {
             type: Object,

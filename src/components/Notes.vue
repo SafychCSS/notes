@@ -1,16 +1,16 @@
 <template>
     <div class="notes grid grid-cols-2 gap-6 my-8">
-        <Note v-for="note in notes" :note="note" @removeNote="removeNote" />
+        <NotesItem v-for="note in notes" :note="note" @removeNote="removeNote" />
     </div>
 </template>
 
 <script>
-import Note from "@/components/Note";
+import NotesItem from "@/components/NotesItem";
 
 export default {
     name: 'Notes',
     components: {
-        Note
+        NotesItem
     },
     props: {
         notes: {
