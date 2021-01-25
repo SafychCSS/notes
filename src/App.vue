@@ -2,15 +2,11 @@
     <div class="sm:mx-auto p-4 max-w-screen-md">
         <h1 class="text-center text-3xl text-purple-600 font-bold">Notes App</h1>
 
-        <NewNote :note="note" @addNote="addNote" />
+        <new-note :note="note" @addNote="addNote" />
 
         <div class="flex">
-            <div class="find relative flex-auto mr-8">
-                <input type="text" name="find" class="border w-full rounded-full py-4 pl-8 pr-20 focus:border-purple-400 transition duration-300" placeholder="Search note...">
-                <svg class="find__icon absolute right-0 text-gray-400 w-7 h-7 transition duration-300">
-                    <use xlink:href="./assets/img/sprite.svg#icon-search"></use>
-                </svg>
-            </div>
+
+            <SearchNote @search="search = $event" />
 
             <div class="flex text-gray-400">
                 <button type="button" class="ml-4">
@@ -27,7 +23,7 @@
             </div>
         </div>
 
-        <Notes :notes="notes" @removeNote="removeNote" />
+        <Notes :notes="filteredNotes" @removeNote="removeNote" />
 
     </div>
 </template>
@@ -35,12 +31,14 @@
 <script>
 import NewNote from "@/components/NewNote";
 import Notes from "@/components/Notes";
+import SearchNote from "@/components/SearchNote";
 
 export default {
     name: 'App',
     components: {
         NewNote,
-        Notes
+        Notes,
+        SearchNote
     },
     data() {
         return {
@@ -67,7 +65,8 @@ export default {
                     description: 'anything about this note',
                     dataAdd: new Date().toLocaleString()
                 },
-            ]
+            ],
+            search: ''
         }
     },
     methods: {
@@ -88,6 +87,20 @@ export default {
         removeNote(id) {
             let index = this.notes.findIndex(item => id === item.id);
             this.notes.splice(index, 1);
+        },
+    },
+    computed: {
+        filteredNotes() {
+            let notes = this.notes,
+                search = this.search.toLowerCase();
+
+            if (!search) return notes;
+            notes = notes.filter(item => {
+                if (item.title.toLowerCase().startsWith(search)) {
+                    return item;
+                }
+            });
+            return notes;
         }
     }
 }
