@@ -1,5 +1,5 @@
 <template>
-    <div class="notes grid grid-cols-2 gap-6 my-8">
+    <div class="notes grid grid-cols-1 gap-6 my-8">
         <NotesItem v-for="note in notes" :note="note" @removeNote="removeNote" />
     </div>
 </template>

@@ -1,5 +1,5 @@
 <template>
-    <div class="note relative flex flex-col bg-white shadow p-8 hover:shadow-lg transition duration-300">
+    <div :class="'priority-' + note.priority" class="note border-l-2 border-transparent relative flex flex-col bg-white shadow p-8 hover:shadow-lg transition duration-300">
         <p class="note__title font-medium text-2xl mb-4">{{ note.title }}</p>
         <p class="note__description text-lg my-4">{{ note.description }}</p>
         <span class="note__date text-sm text-gray-400 mt-auto">{{ note.dataAdd }}</span>

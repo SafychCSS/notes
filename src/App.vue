@@ -9,21 +9,21 @@
             <SearchNote @search="search = $event" />
 
             <div class="flex text-gray-400">
-                <button type="button" class="ml-4">
-                    <svg class="w-7 h-7 active-element hover:text-purple-600 transition duration-300">
+                <button @click="active = true" :class="{'active-element': active}" type="button" class="ml-4 hover:text-purple-600 transition duration-300">
+                    <svg class="w-7 h-7">
                         <use xlink:href="./assets/img/sprite.svg#icon-tile"></use>
                     </svg>
                 </button>
 
-                <button type="button" class="ml-4">
-                    <svg class="w-7 h-7 hover:text-purple-600 transition duration-300">
+                <button @click="active = false" :class="{'active-element': !active}" type="button" class="ml-4 hover:text-purple-600 transition duration-300">
+                    <svg class="w-7 h-7">
                         <use xlink:href="./assets/img/sprite.svg#icon-list"></use>
                     </svg>
                 </button>
             </div>
         </div>
 
-        <Notes :notes="filteredNotes" @removeNote="removeNote" />
+        <Notes :notes="filteredNotes" @removeNote="removeNote" :class="{'sm:grid-cols-2': active}" />
 
     </div>
 </template>
@@ -51,32 +51,37 @@ export default {
                     id: 1,
                     title: 'First note',
                     description: 'anything about this note',
+                    priority: 'no',
                     dataAdd: new Date().toLocaleString()
                 },
                 {
                     id: 2,
                     title: 'Second note',
                     description: 'anything about this note anything about this note anything about this note',
+                    priority: 'medium',
                     dataAdd: new Date().toLocaleString()
                 },
                 {
                     id: 3,
                     title: 'Third note',
                     description: 'anything about this note',
+                    priority: 'high',
                     dataAdd: new Date().toLocaleString()
                 },
             ],
-            search: ''
+            search: '',
+            active: true
         }
     },
     methods: {
         addNote(note) {
             if (this.note.title.length < 3) return false;
-            let {title, description} = note;
+            let {title, description, priority} = note;
             this.notes.push({
                 id: this.notes.length + 1,
-                title: title,
-                description: description,
+                title,
+                description,
+                priority,
                 dataAdd: new Date().toLocaleString()
             });
 
