@@ -89,6 +89,7 @@ export default {
 
         removeNote(id) {
             let index = this.notes.findIndex(item => id === item.id);
+            console.log(id)
             this.notes.splice(index, 1);
         },
     },
