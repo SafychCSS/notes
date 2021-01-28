@@ -40,16 +40,13 @@
 <script>
 export default {
     name: 'NewNote',
-    props: {
-        note: {
-            type: Object,
-            required: true
-        }
-    },
     data() {
         return {
-            newNote: null,
             currentPriority: 'no',
+            note: {
+                title: '',
+                description: '',
+            },
             priorities: [
                 {
                     label: 'No priority',
@@ -68,8 +65,13 @@ export default {
     },
     methods: {
         addNote() {
+            if (this.note.title.length < 3) return false;
+
             this.note.priority = this.currentPriority;
             this.$emit('addNote', this.note);
+
+            this.note.title = '';
+            this.note.description = '';
         }
     }
 }

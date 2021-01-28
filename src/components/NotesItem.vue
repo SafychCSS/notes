@@ -1,9 +1,53 @@
 <template>
-    <div :class="'priority-' + note.priority" class="note border-l-2 border-transparent relative flex flex-col bg-white shadow p-8 hover:shadow-lg transition duration-300">
-        <p class="note__title font-medium text-2xl mb-4">{{ note.title }}</p>
-        <p class="note__description text-lg my-4">{{ note.description }}</p>
-        <span class="note__date text-sm text-gray-400 mt-auto">{{ note.dataAdd }}</span>
-        <button @click="removeNote(note.id)" type="button" class="note__remove transform absolute text-3xl text-gray-400 hover:text-purple-600 transition duration-300 hover:rotate-90">&times;</button>
+    <div class="relative note bg-white shadow hover:shadow-lg transition duration-300">
+        <div :class="'priority-' + localNote.priority" class="note__content flex flex-col h-full relative px-8 py-6 border-l-2 border-transparent">
+            <div class="note__top flex justify-between">
+                <p class="note__title font-medium text-2xl mb-4">{{ localNote.title }}</p>
+                <div class="btn-group flex-shrink-0 ml-3 flex items-start">
+                    <button @click="isEditing" type="button" class="btn-edit mr-3 text-gray-400 hover:text-green-400 transition duration-300">
+                        <svg class="w-4 h-4">
+                            <use xlink:href="../assets/img/sprite.svg#icon-edit"></use>
+                        </svg>
+                    </button>
+                    <button @click="removeNote(localNote.id)" type="button"
+                            class="note__remove transform text-3xl text-gray-400 hover:text-red-400 transition duration-300 hover:rotate-90">
+                        &times;
+                    </button>
+                </div>
+            </div>
+            <p class="note__description text-lg my-4">{{ localNote.description }}</p>
+            <span class="note__date text-sm text-gray-400 mt-auto">{{ localNote.dataAdd }}</span>
+
+        </div>
+
+        <div v-if="editMode" class="note__edit absolute flex flex-col w-full h-full left-0 top-0 bg-white p-4">
+            <input
+                v-model="localNote.title"
+                name="edit-title"
+                class="top-0 w-full mb-3 px-3 py-1 border rounded-md"
+                type="text"
+            >
+            <textarea
+                v-model="localNote.description"
+                name="edit-description"
+                class="w-full my-3 px-3 py-1 flex-grow border rounded-md"
+                cols="10"
+            >
+            </textarea>
+            <div class="flex">
+                <button @click="saveNote()" type="button" class="save mr-3 text-gray-400 hover:text-green-400 transition duration-300">
+                    <svg class="w-4 h-4">
+                        <use xlink:href="../assets/img/sprite.svg#icon-save"></use>
+                    </svg>
+                </button>
+                <button
+                    @click="cancelEdit"
+                    type="button"
+                    class="note__remove transform text-3xl text-gray-400 hover:text-red-400 transition duration-300 hover:rotate-90">
+                    &times;
+                </button>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -17,9 +61,35 @@ export default {
         }
     },
     data() {
-        return {}
+        return {
+            localNote: {...this.note},
+            editMode: false,
+            prevTitle: '',
+            prevDescription: ''
+        }
     },
     methods: {
+        saveNote() {
+            if (!this.localNote.title.trim()) {
+                this.localNote.title = this.prevTitle;
+            }
+            this.$emit('updateNote', this.localNote);
+            this.prevTitle = this.prevDescription = '';
+            this.editMode = false;
+        },
+
+        cancelEdit() {
+            this.localNote.title = this.prevTitle;
+            this.localNote.description = this.prevDescription;
+            this.editMode = false;
+        },
+
+        isEditing() {
+            this.editMode = true;
+            this.prevTitle = this.localNote.title;
+            this.prevDescription = this.localNote.description;
+        },
+
         removeNote(id) {
             this.$emit('removeNote', id);
         }

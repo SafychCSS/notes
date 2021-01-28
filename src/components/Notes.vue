@@ -1,6 +1,6 @@
 <template>
     <div class="notes grid grid-cols-1 gap-6 my-8">
-        <NotesItem v-for="note in notes" :note="note" @removeNote="removeNote" />
+        <NotesItem v-for="note in notes" :note="note" @removeNote="removeNote" @updateNote="updateNote" />
     </div>
 </template>
 
@@ -22,6 +22,10 @@ export default {
         return {}
     },
     methods: {
+        updateNote(note) {
+            this.$emit('updateNote', note);
+        },
+
         removeNote(id) {
             this.$emit('removeNote', id);
         }

@@ -2,7 +2,7 @@
     <div class="sm:mx-auto p-4 max-w-screen-md">
         <h1 class="text-center text-3xl text-purple-600 font-bold">Notes App</h1>
 
-        <new-note :note="note" @addNote="addNote" />
+        <new-note @addNote="addNote" />
 
         <div class="flex">
 
@@ -23,7 +23,7 @@
             </div>
         </div>
 
-        <Notes :notes="filteredNotes" @removeNote="removeNote" :class="{'sm:grid-cols-2': active}" />
+        <Notes :notes="filteredNotes" @removeNote="removeNote" @updateNote="updateNote" :class="{'sm:grid-cols-2': active}" />
 
     </div>
 </template>
@@ -42,14 +42,10 @@ export default {
     },
     data() {
         return {
-            note: {
-                title: '',
-                description: '',
-            },
             notes: [
                 {
                     id: 1,
-                    title: 'First note',
+                    title: 'First note d d d d d d d d d d d',
                     description: 'anything about this note',
                     priority: 'no',
                     dataAdd: new Date().toLocaleString()
@@ -75,7 +71,6 @@ export default {
     },
     methods: {
         addNote(note) {
-            if (this.note.title.length < 3) return false;
             let {title, description, priority} = note;
             this.notes.push({
                 id: this.notes.length + 1,
@@ -84,9 +79,12 @@ export default {
                 priority,
                 dataAdd: new Date().toLocaleString()
             });
+        },
 
-            this.note.title = '';
-            this.note.description = '';
+        updateNote(note) {
+            let index = this.notes.findIndex(item => note.id === item.id);
+            this.notes[index].title = note.title;
+            this.notes[index].description = note.description;
         },
 
         removeNote(id) {
