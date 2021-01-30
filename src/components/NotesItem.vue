@@ -37,7 +37,7 @@
             >
             </textarea>
             <div class="flex">
-                <button @click="saveNote()" type="button" class="save mr-3 text-gray-400 hover:text-green-400 transition duration-300">
+                <button @click="saveNote" type="button" class="save mr-3 text-gray-400 hover:text-green-400 transition duration-300">
                     <svg class="w-4 h-4">
                         <use xlink:href="../assets/img/sprite.svg#icon-save"></use>
                     </svg>
@@ -96,6 +96,11 @@ export default {
 
         removeNote(id) {
             this.$emit('removeNote', id);
+        }
+    },
+    watch: {
+        note() {
+            this.localNote = {...this.note}
         }
     },
     directives: {

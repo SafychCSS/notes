@@ -45,7 +45,7 @@ export default {
             notes: [
                 {
                     id: 1,
-                    title: 'First note d d d d d d d d d d d',
+                    title: 'First note',
                     description: 'anything about this note',
                     priority: 'no',
                     dataAdd: new Date().toLocaleString()
@@ -89,7 +89,6 @@ export default {
 
         removeNote(id) {
             let index = this.notes.findIndex(item => id === item.id);
-            console.log(id)
             this.notes.splice(index, 1);
         },
     },
