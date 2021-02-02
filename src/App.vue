@@ -23,7 +23,9 @@
             </div>
         </div>
 
-        <Notes :notes="filteredNotes" @removeNote="removeNote" @updateNote="updateNote" :class="{'sm:grid-cols-2': active}" />
+        <Notes :class="{'sm:grid-cols-2': active}">
+            <NotesItem v-for="note in filteredNotes" :key="note.id" :note="note" @removeNote="removeNote" @updateNote="updateNote" />
+        </Notes>
 
     </div>
 </template>
@@ -32,12 +34,14 @@
 import NewNote from "@/components/NewNote";
 import Notes from "@/components/Notes";
 import SearchNote from "@/components/SearchNote";
+import NotesItem from "@/components/NotesItem";
 
 export default {
     name: 'App',
     components: {
         NewNote,
         Notes,
+        NotesItem,
         SearchNote
     },
     data() {
@@ -110,7 +114,3 @@ export default {
     }
 }
 </script>
-
-<style lang="scss">
-
-</style>
