@@ -66,14 +66,16 @@ export default {
                 },
             ],
             search: '',
-            active: true
+            active: true,
+            countNote: 3
         }
     },
     methods: {
         addNote(note) {
+            this.countNote++;
             let {title, description, priority} = note;
             this.notes.push({
-                id: this.notes.length + 1,
+                id: this.countNote,
                 title,
                 description,
                 priority,

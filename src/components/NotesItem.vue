@@ -22,7 +22,7 @@
 
         <div v-if="editMode" class="note__edit absolute flex flex-col w-full h-full left-0 top-0 bg-white p-4">
             <input
-                v-model="localNote.title"
+                v-model="title"
                 v-focus
                 @keydown.esc="cancelEdit"
                 name="edit-title"
@@ -30,7 +30,7 @@
                 type="text"
             >
             <textarea
-                v-model="localNote.description"
+                v-model="description"
                 name="edit-description"
                 class="w-full my-3 px-3 py-1 flex-grow border rounded-md"
                 cols="10"
@@ -64,45 +64,47 @@ export default {
     },
     data() {
         return {
-            localNote: {...this.note},
+            title: '',
+            description: '',
             editMode: false,
-            prevTitle: '',
-            prevDescription: ''
         }
     },
     methods: {
         saveNote() {
-            if (!this.localNote.title.trim()) {
-                this.localNote.title = this.prevTitle;
+            if (!this.title.trim()) {
+                this.title = this.note.title;
             }
-            this.$emit('updateNote', this.localNote);
-            this.prevTitle = this.prevDescription = '';
+            this.$emit('updateNote', {
+                title: this.title,
+                description: this.description,
+                id: this.note.id
+            });
             this.editMode = false;
         },
 
         cancelEdit() {
-            this.localNote.title = this.prevTitle;
-            this.localNote.description = this.prevDescription;
             this.editMode = false;
-            this.prevTitle = '';
-            this.prevDescription = '';
+            this.title = '';
+            this.description = '';
         },
 
         isEditing() {
             this.editMode = true;
-            this.prevTitle = this.localNote.title;
-            this.prevDescription = this.localNote.description;
+            this.title = this.note.title;
+            this.description = this.note.description;
         },
 
         removeNote(id) {
             this.$emit('removeNote', id);
+            this.title = '';
+            this.description = '';
         }
     },
-    watch: {
+    /*watch: {
         note() {
             this.localNote = {...this.note}
         }
-    },
+    },*/
     directives: {
         focus: {
             inserted: function(el) {
